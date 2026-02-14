@@ -1,30 +1,44 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
+inputBox.focus();
+
 function addTask(){
     if (inputBox.value === ''){
         alert("You must write something!");
+        inputBox.focus();
+
     }
             else{
                 let li = document.createElement("li");
-                li.innerHTML = inputBox.value;
+                let spanText = document.createElement("span")
+                spanText.classList.add("text");
+                spanText.innerHTML = inputBox.value;
+                li.appendChild(spanText);
                 listContainer.appendChild(li);
                 let span = document.createElement("span");
-                span.innerHTML = "/u00d7";
+                span.classList.add("delete");
+                span.innerHTML = "&#10006;";
                 li.appendChild(span);
+                inputBox.focus();
             }
             inputBox.value = "";
+            inputBox.focus();
             saveData();
 }
 
 listContainer.addEventListener("click", function(e){
-if(e.target.tagName === "LI"){
-    e.target.classList.toggle("checked");
+if(e.target.classList.contains("text")){
+    e.target.parentElement.classList.toggle("checked");
+     inputBox.focus();
+
     saveData()
 }
-else if(e.target.tagName === "SPAN"){
+else if(e.target.classList.contains("delete")){
     e.target.parentElement.remove();
+     inputBox.focus();
     saveData()
-    
+    console.log(e.target);
+console.log(e.target.classList);
 }
 }, false);
 
@@ -33,6 +47,7 @@ function saveData(){
 }
  function showTask(){
 listContainer.innerHTML = localStorage.getItem("data");
+
  }
  showTask();
 
